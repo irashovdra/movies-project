@@ -1,0 +1,21 @@
+{
+  "homepage": "https://irashovdra.github.io/movies-project/",
+  "name": "movies-project",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "parcel ./src/index.html --no-cache",
+    "predeploy": "npm run build",
+    "build": "parcel build ./src/index.html --no-cache --public-url /products-shop/",
+    "deploy": "gh-pages -d dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gh-pages": "^6.2.0"
+  },
+  "devDependencies": {
+    "parcel": "^2.12.0"
+  },
+  "description": ""
+}
