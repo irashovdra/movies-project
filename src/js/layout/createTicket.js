@@ -4,14 +4,14 @@ export const createTicket = ({
   eventDate,
   eventVenue,
 }) => {
-  return `<li class="ticket-card">
-            <div class="ticket-card__image-wrapper">
-              <img src="${eventImage}" alt="${eventName}" class="ticket-card__image">
+  return `<li class="ticket">
+            <div class="ticket__photo-wrapper">
+              <img src="${eventImage}" alt="${eventName}" class="ticket__photo">
             </div>
-            <div class="ticket-card__details">
-              <h3 class="ticket-card__title">${eventName}</h3>
-              <p class="ticket-card__date">${eventDate}</p>
-              <p class="ticket-card__venue">${eventVenue}</p>
+            <div class="ticket__details">
+              <h3 class="ticket__title">${eventName}</h3>
+              <p class="ticket__date">${eventDate}</p>
+              <p class="ticket__venue">${eventVenue}</p>
             </div>
           </li>`;
 };
