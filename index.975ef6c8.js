@@ -588,14 +588,29 @@ var _app = require("./js/app");
 
 },{"./js/app":"8lRBv"}],"8lRBv":[function(require,module,exports) {
 var _getTickets = require("./api/getTickets");
+var _createTicket = require("./layout/createTicket");
 const ticketsList = document.querySelector(".tickets__list");
-(0, _getTickets.getTickets)().then((response)=>{
-    return response.json();
-}).then((data)=>{
-    ticketsList.innerHTML = data;
+(0, _getTickets.getTickets)().then((response)=>response.json()).then((data)=>{
+    if (data._embedded && data._embedded.events) {
+        const events = data._embedded.events;
+        ticketsList.innerHTML = events.map((event)=>{
+            const eventImage = event.images ? event.images[0].url : "";
+            const eventName = event.name || "No Event Name";
+            const eventDate = event.dates?.start?.localDate || "No Date";
+            const eventVenue = event._embedded?.venues?.[0]?.name || "No Venue";
+            return (0, _createTicket.createTicket)({
+                eventImage,
+                eventName,
+                eventDate,
+                eventVenue
+            });
+        }).join("");
+    } else ticketsList.innerHTML = "<p>No events found.</p>";
+}).catch((error)=>{
+    console.log(error);
 });
 
-},{"./api/getTickets":"djTwB"}],"djTwB":[function(require,module,exports) {
+},{"./api/getTickets":"djTwB","./layout/createTicket":"jkbEf"}],"djTwB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getTickets", ()=>getTickets);
@@ -633,6 +648,23 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}]},["farZc","8lqZg"], "8lqZg", "parcelRequirec3f7")
+},{}],"jkbEf":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "createTicket", ()=>createTicket);
+const createTicket = ({ eventImage, eventName, eventDate, eventVenue })=>{
+    return `<li class="ticket">
+            <div class="ticket__photo-wrapper">
+              <img src="${eventImage}" alt="${eventName}" class="ticket__photo">
+            </div>
+            <div class="ticket__details">
+              <h3 class="ticket__title">${eventName}</h3>
+              <p class="ticket__date">${eventDate}</p>
+              <p class="ticket__venue">${eventVenue}</p>
+            </div>
+          </li>`;
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["farZc","8lqZg"], "8lqZg", "parcelRequirec3f7")
 
 //# sourceMappingURL=index.975ef6c8.js.map
